@@ -44,7 +44,7 @@ server.post("/api/login", async (req, res) => {
 server.get("/api/users", protected, async (req, res) => {
   try {
     const users = await getUsers();
-    res.status(200).json(users);
+    res.status(200).json({ users, token: req.decodedToken });
   } catch (err) {
     res.status(500).json(err);
   }

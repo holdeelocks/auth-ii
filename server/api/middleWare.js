@@ -8,6 +8,7 @@ module.exports = function protected(req, res, next) {
       if (err) {
         res.status(401).send({ error: "You shall not pass! (invalid token)" });
       } else {
+        req.decodedToken = decodedToken;
         next();
       }
     });
