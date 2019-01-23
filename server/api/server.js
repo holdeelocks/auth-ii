@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -19,7 +20,6 @@ server.post("/api/register", async (req, res) => {
     const ids = await addUser(userInfo);
     const user = await getUserById(ids[0]);
     const token = generateToken(user);
-
     res.status(201).json({ token, id: user.id });
   } catch (err) {
     if (err.errno === 19) return res.status(400).json({ error: "That username already exists" });
@@ -32,9 +32,7 @@ server.post("/api/login", async (req, res) => {
   try {
     const user = await login(creds);
     if (user && bcrypt.hashSync(creds.password, user.password)) {
-      const token = generateToken(creds);
-
-      res.status(200).json({ token });
+      res.status(200).json({ token: generateToken(creds) });
     } else {
       res.status(401).json({ error: "you shall not pass!" });
     }
@@ -49,20 +47,6 @@ server.get("/api/users", protected, async (req, res) => {
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json(err);
-  }
-});
-
-server.get("/logout", (req, res) => {
-  if (req.session) {
-    req.session.destroy(err => {
-      if (err) {
-        res.status(500).send("you can never leave");
-      } else {
-        res.status(200).send("bye bye");
-      }
-    });
-  } else {
-    res.json({ message: "logged out already" });
   }
 });
 

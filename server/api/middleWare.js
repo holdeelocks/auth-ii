@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
-const { secret } = require("./helpers");
 
 module.exports = function protected(req, res, next) {
   const token = req.headers.authorization;
+  const secret = process.env.JWT_SECRET;
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
       if (err) {

@@ -3,7 +3,7 @@ const knexConfig = require("../knexfile");
 const jwt = require("jsonwebtoken");
 
 const db = knex(knexConfig.development);
-const secret = "this is a big ol secrettt";
+const secret = process.env.JWT_SECRET;
 
 module.exports = {
   addUser: function(user) {
