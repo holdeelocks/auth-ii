@@ -34,16 +34,19 @@ class App extends Component {
     }
   };
 
-  logout = async e => {
+  logout = e => {
     e.preventDefault();
-    try {
-      const loggedOut = await axios.get("http://localhost:4000/api/logout");
-      console.log(loggedOut);
-      this.setState({ users: [] });
-      localStorage.removeItem("jwtToken");
-    } catch (err) {
-      console.log(err);
-    }
+    this.setState({ users: [] });
+    localStorage.removeItem("jwtToken");
+    // try {
+    //   // MAYBE DON'T NEED TO MAKE AXIOS CALL BECAUSE JWT IS STORED LOCALLY
+    //   // const loggedOut = await axios.get("http://localhost:4000/api/logout");
+    //   console.log(loggedOut);
+    //   this.setState({ users: [] });
+    //   localStorage.removeItem("jwtToken");
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   render() {
