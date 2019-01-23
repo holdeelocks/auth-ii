@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React from 'react';
 
 const UserList = ({ users }) => {
-  return (
-    <div className="userlist">
-      {users &&
-        users.map(user => (
-          <div className="user" key={user.id}>
-            <p>{user.username}</p>
-          </div>
-        ))}
-    </div>
-  );
+	return (
+		<div className="userlist">
+			{users &&
+				users.map(user => (
+					<div className="user" key={user.id}>
+						<h4>{user.username}</h4>
+						<p>{user.departments}</p>
+					</div>
+				))}
+		</div>
+	);
 };
 
 export default UserList;
