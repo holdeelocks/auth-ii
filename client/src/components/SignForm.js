@@ -28,7 +28,7 @@ class SignForm extends React.Component {
 		e.preventDefault();
 		try {
 			const response = await axios.post(
-				`http://localhost:4000/api/${this.props.signup ? 'register' : 'login'}`,
+				`https://auth-holden.herokuapp.com/api/${this.props.signup ? 'register' : 'login'}`,
 				this.state
 			);
 			if (!response.data.token) return alert('Username or password incorrect');

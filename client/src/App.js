@@ -16,7 +16,6 @@ class App extends Component {
 	};
 
 	componentDidMount() {
-		// console.log(localStorage.getItem('jwtToken'));
 		if (localStorage.getItem('jwtToken')) {
 			this.getUsers();
 		}
@@ -26,7 +25,7 @@ class App extends Component {
 		try {
 			const accessToken = localStorage.getItem('jwtToken');
 			const config = { headers: { Authorization: accessToken } };
-			const users = await axios.get('http://localhost:4000/api/users', config);
+			const users = await axios.get('https://auth-holden.herokuapp.com/api/users', config);
 
 			this.setState({ users: users.data });
 			this.props.history.push('/users');
@@ -79,9 +78,3 @@ class App extends Component {
 }
 
 export default withRouter(App);
-
-// {
-//   "username": "bossPerson",
-//    "password": "apexPredator",
-//    "departments": "admin"
-// }
