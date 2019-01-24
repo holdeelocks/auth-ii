@@ -3,7 +3,7 @@ const knexConfig = require('../knexfile');
 const jwt = require('jsonwebtoken');
 
 const db = knex(knexConfig.development);
-const secret = process.env.JWT_SECRET;
+const secret = process.env.JWT_SECRET || 'super secreto dont matter0';
 
 module.exports = {
 	addUser: function(user) {
@@ -12,6 +12,11 @@ module.exports = {
 	login: function(user) {
 		return db('users')
 			.where({ username: user.username })
+			.first();
+	},
+	auth: function(username) {
+		return db('users')
+			.where({ username })
 			.first();
 	},
 	getUsers: function() {
@@ -35,3 +40,13 @@ module.exports = {
 	},
 	secret
 };
+
+// module.exports.findByUsername = function(username, cb) {
+// 	process.nextTick(async function() {
+// 		var record = await module.exports.auth(username);
+// 		if (record) {
+// 			return cb(null, record);
+// 		}
+// 		return cb(null, null);
+// 	});
+// };

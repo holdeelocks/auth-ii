@@ -16,7 +16,8 @@ import axios from 'axios';
 class SignForm extends React.Component {
 	state = {
 		username: '',
-		password: ''
+		password: '',
+		departments: ''
 	};
 
 	handleChange = ({ target: { name, value } }) => {
@@ -27,18 +28,21 @@ class SignForm extends React.Component {
 		e.preventDefault();
 		try {
 			const response = await axios.post(
-				`http://localhost:4000/api/${this.props.signup ? 'register' : 'login'}`,
-				this.state
+				`https://auth-holden.herokuapp.com/api/${this.props.signup ? 'register' : 'login'}`,
+				this.state,
+				{ withCredentials: true }
 			);
+			console.log(response);
+			if (!response.data.token) return alert('Username or password incorrect');
 			localStorage.setItem('jwtToken', response.data.token);
 			this.props.getUsers();
 		} catch (err) {
-			console.log(err);
+			console.log(err, localStorage.getItem('jwtToken'));
 		}
 	};
 
 	render() {
-		const { email, password, department } = this.state;
+		const { email, password, departments } = this.state;
 		const { signup, modal } = this.props;
 
 		return (
@@ -74,12 +78,12 @@ class SignForm extends React.Component {
 							{signup && (
 								<Col>
 									<FormGroup>
-										<Label for="deparment">Department</Label>
+										<Label for="deparment">Departments</Label>
 										<Input
 											type="text"
-											name="department"
-											placeholder="department"
-											value={department}
+											name="departments"
+											placeholder="departments"
+											value={departments}
 											onChange={this.handleChange}
 										/>
 									</FormGroup>
