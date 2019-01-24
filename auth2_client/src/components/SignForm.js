@@ -26,12 +26,12 @@ class SignForm extends React.Component {
 
 	onSubmit = async e => {
 		e.preventDefault();
-		// console.log(this.props.signup);
 		try {
 			const response = await axios.post(
 				`http://localhost:4000/api/${this.props.signup ? 'register' : 'login'}`,
 				this.state
 			);
+			if (!response.data.token) return alert('Username or password incorrect');
 			localStorage.setItem('jwtToken', response.data.token);
 			this.props.getUsers();
 		} catch (err) {

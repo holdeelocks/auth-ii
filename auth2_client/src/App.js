@@ -16,6 +16,7 @@ class App extends Component {
 	};
 
 	componentDidMount() {
+		// console.log(localStorage.getItem('jwtToken'));
 		if (localStorage.getItem('jwtToken')) {
 			this.getUsers();
 		}
@@ -30,7 +31,7 @@ class App extends Component {
 			this.setState({ users: users.data });
 			this.props.history.push('/users');
 		} catch (err) {
-			console.log(err);
+			this.props.history.push('/');
 		}
 	};
 
@@ -50,6 +51,7 @@ class App extends Component {
 					<NavLink to="/">Home</NavLink>
 					{users.length !== 0 && <NavLink to="/users">Users</NavLink>}
 				</nav>
+
 				{users.length === 0 ? (
 					<Link to="/signin">
 						<Button color="primary">Login Here</Button>

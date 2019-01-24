@@ -14,6 +14,11 @@ module.exports = {
 			.where({ username: user.username })
 			.first();
 	},
+	auth: function(username) {
+		return db('users')
+			.where({ username })
+			.first();
+	},
 	getUsers: function() {
 		return db('users');
 	},
@@ -34,4 +39,14 @@ module.exports = {
 		return jwt.sign(payload, secret, options);
 	},
 	secret
+};
+
+module.exports.findByUsername = function(username, cb) {
+	process.nextTick(async function() {
+		var record = await module.exports.auth(username);
+		if (record) {
+			return cb(null, record);
+		}
+		return cb(null, null);
+	});
 };
