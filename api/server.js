@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -6,14 +6,7 @@ const bcrypt = require('bcryptjs');
 // const passport = require('passport');
 // const local = require('passport-local');
 const { protected, checkRole } = require('./middleWare');
-const {
-	addUser,
-	login,
-	getUsers,
-	generateToken,
-	getUserById,
-	findByUsername
-} = require('./helpers');
+const { addUser, login, getUsers, generateToken, getUserById } = require('./helpers');
 
 const server = express();
 
@@ -78,25 +71,21 @@ server.post('/api/register', async (req, res) => {
 	}
 });
 
-server.post(
-	'/api/login',
-	// passport.authenticate('local', { failureRedirect: '/' }),
-	async (req, res) => {
-		const creds = req.body;
-		// console.log(creds);
-		try {
-			const user = await login(creds);
-			if (user && bcrypt.compareSync(creds.password, user.password)) {
-				res.status(200).json({ token: generateToken(creds) });
-			} else {
-				res.status(401).json({ error: 'you shall not pass!' });
-			}
-		} catch (err) {
-			console.log(err);
-			res.status(500).json(err);
+server.post('/api/login', async (req, res) => {
+	const creds = req.body;
+	// console.log(creds);
+	try {
+		const user = await login(creds);
+		if (user && bcrypt.compareSync(creds.password, user.password)) {
+			res.status(200).json({ token: generateToken(creds) });
+		} else {
+			res.status(401).json({ error: 'you shall not pass!' });
 		}
+	} catch (err) {
+		console.log(err);
+		res.status(500).json(err);
 	}
-);
+});
 
 server.get('/api/users', protected, checkRole('janitor'), async (req, res) => {
 	try {
@@ -108,3 +97,5 @@ server.get('/api/users', protected, checkRole('janitor'), async (req, res) => {
 });
 
 module.exports = server;
+
+// passport.authenticate('local', { failureRedirect: '/' }),

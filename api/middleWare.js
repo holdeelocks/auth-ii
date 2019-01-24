@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 
 module.exports.protected = function protected(req, res, next) {
 	const token = req.headers.authorization;
-	const secret = process.env.JWT_SECRET;
+	const secret = process.env.JWT_SECRET || 'super secreto dont matter0';
+	console.log(process.env.JWT_SECRET);
 	if (token) {
 		jwt.verify(token, secret, (err, decodedToken) => {
 			if (err) {
@@ -19,7 +20,7 @@ module.exports.protected = function protected(req, res, next) {
 
 module.exports.checkRole = function checkRole(department) {
 	return function(req, res, next) {
-		// console.log(req.decodedToken);
+		console.log(req.decodedToken);
 		if (req.decodedToken.departments.includes(department)) {
 			res
 				.status(403)
