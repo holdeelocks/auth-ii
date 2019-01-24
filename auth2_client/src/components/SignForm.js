@@ -26,7 +26,7 @@ class SignForm extends React.Component {
 
 	onSubmit = async e => {
 		e.preventDefault();
-		console.log(this.props.signup);
+		// console.log(this.props.signup);
 		try {
 			const response = await axios.post(
 				`http://localhost:4000/api/${this.props.signup ? 'register' : 'login'}`,
@@ -40,7 +40,7 @@ class SignForm extends React.Component {
 	};
 
 	render() {
-		const { email, password, department } = this.state;
+		const { email, password, departments } = this.state;
 		const { signup, modal } = this.props;
 
 		return (
@@ -76,12 +76,12 @@ class SignForm extends React.Component {
 							{signup && (
 								<Col>
 									<FormGroup>
-										<Label for="deparment">Department</Label>
+										<Label for="deparment">Departments</Label>
 										<Input
 											type="text"
-											name="department"
-											placeholder="department"
-											value={department}
+											name="departments"
+											placeholder="departments"
+											value={departments}
 											onChange={this.handleChange}
 										/>
 									</FormGroup>

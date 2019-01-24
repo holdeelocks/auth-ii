@@ -19,7 +19,7 @@ module.exports.protected = function protected(req, res, next) {
 
 module.exports.checkRole = function checkRole(department) {
 	return function(req, res, next) {
-		console.log(req.decodedToken);
+		// console.log(req.decodedToken);
 		if (req.decodedToken.departments.includes(department)) {
 			res
 				.status(403)
