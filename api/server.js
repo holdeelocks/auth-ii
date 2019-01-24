@@ -18,7 +18,7 @@ const {
 
 const server = express();
 
-server.use(cors());
+server.use(cors({ credentials: true }));
 server.use(helmet());
 server.use(express.json());
 server.use(express.static(path.join(__dirname, 'client/build')));
