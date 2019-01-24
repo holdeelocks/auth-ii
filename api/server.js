@@ -3,9 +3,10 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
-const passport = require('passport');
-const local = require('passport-local');
-
+const path = require('path');
+// const passport = require('passport');
+// const local = require('passport-local');
+const { protected, checkRole } = require('./middleWare');
 const {
 	addUser,
 	login,
@@ -14,51 +15,55 @@ const {
 	getUserById,
 	findByUsername
 } = require('./helpers');
-const { protected, checkRole } = require('./middleWare');
 
 const server = express();
 
 server.use(cors());
 server.use(helmet());
 server.use(express.json());
-server.use(passport.initialize());
-server.use(passport.session());
-server.use(require('body-parser').urlencoded({ extended: true }));
-server.use(
-	require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false })
-);
+server.use(express.static(path.join(__dirname, 'client/build')));
 
-var LocalStrategy = local.Strategy;
-
-passport.serializeUser(function(user, cb) {
-	cb(null, user);
+server.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
+// server.use(passport.initialize());
+// server.use(passport.session());
+// server.use(require('body-parser').urlencoded({ extended: true }));
+// server.use(
+// 	require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false })
+// );
 
-passport.deserializeUser(function(id, cb) {
-	db.users.findById(id, function(err, user) {
-		if (err) {
-			return cb(err);
-		}
-		cb(null, user);
-	});
-});
+// var LocalStrategy = local.Strategy;
 
-passport.use(
-	new LocalStrategy(function(username, password, cb) {
-		findByUsername(username, async function(err, user) {
-			if (err) {
-				return cb(err);
-			}
-			if (!user) {
-				return cb(null, false);
-			}
-			if (!bcrypt.compareSync(password, user.password)) {
-				return cb(null, false);
-			}
-			return cb(null, user);
-		});
-	})
-);
+// passport.serializeUser(function(user, cb) {
+// 	cb(null, user);
+// });
+
+// passport.deserializeUser(function(id, cb) {
+// 	db.users.findById(id, function(err, user) {
+// 		if (err) {
+// 			return cb(err);
+// 		}
+// 		cb(null, user);
+// 	});
+// });
+
+// passport.use(
+// 	new LocalStrategy(function(username, password, cb) {
+// 		findByUsername(username, async function(err, user) {
+// 			if (err) {
+// 				return cb(err);
+// 			}
+// 			if (!user) {
+// 				return cb(null, false);
+// 			}
+// 			if (!bcrypt.compareSync(password, user.password)) {
+// 				return cb(null, false);
+// 			}
+// 			return cb(null, user);
+// 		});
+// 	})
+// );
 
 // server.get('/', (req, res) => {
 // 	res.json({ success: false });
@@ -80,7 +85,7 @@ server.post('/api/register', async (req, res) => {
 
 server.post(
 	'/api/login',
-	passport.authenticate('local', { failureRedirect: '/' }),
+	// passport.authenticate('local', { failureRedirect: '/' }),
 	async (req, res) => {
 		const creds = req.body;
 		// console.log(creds);

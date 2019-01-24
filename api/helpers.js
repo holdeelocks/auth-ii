@@ -41,12 +41,12 @@ module.exports = {
 	secret
 };
 
-module.exports.findByUsername = function(username, cb) {
-	process.nextTick(async function() {
-		var record = await module.exports.auth(username);
-		if (record) {
-			return cb(null, record);
-		}
-		return cb(null, null);
-	});
-};
+// module.exports.findByUsername = function(username, cb) {
+// 	process.nextTick(async function() {
+// 		var record = await module.exports.auth(username);
+// 		if (record) {
+// 			return cb(null, record);
+// 		}
+// 		return cb(null, null);
+// 	});
+// };
