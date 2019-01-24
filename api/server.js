@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
-const path = require('path');
 // const passport = require('passport');
 // const local = require('passport-local');
 const { protected, checkRole } = require('./middleWare');
@@ -21,11 +20,7 @@ const server = express();
 server.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 server.use(helmet());
 server.use(express.json());
-server.use(express.static(path.join(__dirname, 'client/build')));
 
-server.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
 // server.use(passport.initialize());
 // server.use(passport.session());
 // server.use(require('body-parser').urlencoded({ extended: true }));
