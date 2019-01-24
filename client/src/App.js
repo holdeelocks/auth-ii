@@ -17,6 +17,7 @@ class App extends Component {
 
 	componentDidMount() {
 		if (localStorage.getItem('jwtToken')) {
+			console.log('have a token');
 			this.getUsers();
 		}
 	}

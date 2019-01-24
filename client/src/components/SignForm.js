@@ -35,7 +35,7 @@ class SignForm extends React.Component {
 			localStorage.setItem('jwtToken', response.data.token);
 			this.props.getUsers();
 		} catch (err) {
-			console.log(err);
+			console.log(err, localStorage.getItem('jwtToken'));
 		}
 	};
 

@@ -18,7 +18,7 @@ const { protected, checkRole } = require('./middleWare');
 
 const server = express();
 
-server.use(cors({ origin: 'http://localhost:3000' }));
+server.use(cors());
 server.use(helmet());
 server.use(express.json());
 server.use(passport.initialize());
@@ -83,6 +83,7 @@ server.post(
 	passport.authenticate('local', { failureRedirect: '/' }),
 	async (req, res) => {
 		const creds = req.body;
+		// console.log(creds);
 		try {
 			const user = await login(creds);
 			if (user && bcrypt.compareSync(creds.password, user.password)) {
@@ -91,6 +92,7 @@ server.post(
 				res.status(401).json({ error: 'you shall not pass!' });
 			}
 		} catch (err) {
+			console.log(err);
 			res.status(500).json(err);
 		}
 	}
