@@ -16,7 +16,8 @@ import axios from 'axios';
 class SignForm extends React.Component {
 	state = {
 		username: '',
-		password: ''
+		password: '',
+		departments: ''
 	};
 
 	handleChange = ({ target: { name, value } }) => {
@@ -25,6 +26,7 @@ class SignForm extends React.Component {
 
 	onSubmit = async e => {
 		e.preventDefault();
+		console.log(this.props.signup);
 		try {
 			const response = await axios.post(
 				`http://localhost:4000/api/${this.props.signup ? 'register' : 'login'}`,

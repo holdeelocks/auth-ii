@@ -20,6 +20,7 @@ server.post('/api/register', async (req, res) => {
 		const ids = await addUser(userInfo);
 		const user = await getUserById(ids[0]);
 		const token = generateToken(user);
+		console.log(ids, user, token);
 		res.status(201).json({ token, id: user.id });
 	} catch (err) {
 		if (err.errno === 19) return res.status(400).json({ error: 'That username already exists' });
