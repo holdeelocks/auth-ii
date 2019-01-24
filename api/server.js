@@ -60,9 +60,9 @@ passport.use(
 	})
 );
 
-server.get('/', (req, res) => {
-	res.json({ success: false });
-});
+// server.get('/', (req, res) => {
+// 	res.json({ success: false });
+// });
 
 server.post('/api/register', async (req, res) => {
 	const userInfo = req.body;
